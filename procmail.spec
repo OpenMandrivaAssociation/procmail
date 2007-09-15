@@ -17,7 +17,7 @@ BuildRoot:	%{_tmppath}/%{name}-root
 Provides:	MailTransportAgent
 
 %description
-The procmail program is used by Mandrakelinux for all local mail
+The procmail program is used by Mandriva Linux for all local mail
 delivery. In addition to just delivering mail, procmail can be used
 for automatic filtering, presorting and other mail handling jobs.
 Procmail is also the basis for the SmartList mailing list processor.
