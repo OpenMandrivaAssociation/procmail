@@ -1,5 +1,5 @@
 %define	name	procmail
-%define	release	%mkrel 8
+%define	release	%mkrel 9
 %define	version	3.22
 
 Summary:	The procmail mail processing program.
