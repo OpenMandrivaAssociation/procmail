@@ -13,7 +13,6 @@ Source0:	ftp://ftp.procmail.org/pub/procmail/%{name}-%{version}.tar.bz2
 Patch1:		%{name}-3.22-lockf.patch
 Patch2:		%{name}-3.22-pixelpb.patch
 Patch3:		%{name}-3.22-benchmark.patch
-BuildRoot:	%{_tmppath}/%{name}-root
 Provides:	MailTransportAgent
 
 %description
