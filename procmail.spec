@@ -1,11 +1,10 @@
 %define	name	procmail
-%define	release	%mkrel 9
 %define	version	3.22
 
 Summary:	The procmail mail processing program
 Name:		procmail
 Version:	%{version}
-Release:	%{release}
+Release:	%mkrel 10
 License:	GPL/Artistic
 Group:		System/Servers
 URL:		http://www.procmail.org
