@@ -12,6 +12,10 @@ Source0:	ftp://ftp.procmail.org/pub/procmail/%{name}-%{version}.tar.bz2
 Patch1:		%{name}-3.22-lockf.patch
 Patch2:		%{name}-3.22-pixelpb.patch
 Patch3:		%{name}-3.22-benchmark.patch
+# Fix #27484: explictly define sendmail's location as it's not
+# installed when we build procmail so it can't detect it - AdamW
+# 2008/03 (thanks Snowbat)
+Patch4:		procmail-3.22-defsendmail.patch
 BuildRoot:	%{_tmppath}/%{name}-root
 Provides:	MailTransportAgent
 
@@ -27,6 +31,7 @@ Procmail is also the basis for the SmartList mailing list processor.
 %patch1 -p1 -b .lockf
 %patch2 -p1 -b .warly
 %patch3 -p1 -b .bench
+%patch4 -p1 -b .defsendmail
 
 find . -type d -exec chmod 755 {} \;
 
