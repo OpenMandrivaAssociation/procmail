@@ -4,7 +4,7 @@
 Summary:	The procmail mail processing program
 Name:		procmail
 Version:	%{version}
-Release:	%mkrel 11
+Release:	%mkrel 12
 License:	GPL/Artistic
 Group:		System/Servers
 URL:		http://www.procmail.org
