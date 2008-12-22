@@ -1,10 +1,7 @@
-%define	name	procmail
-%define	version	3.22
-
 Summary:	The procmail mail processing program
 Name:		procmail
-Version:	%{version}
-Release:	%mkrel 12
+Version:	3.22
+Release:	%mkrel 13
 License:	GPL/Artistic
 Group:		System/Servers
 URL:		http://www.procmail.org
@@ -16,8 +13,8 @@ Patch3:		%{name}-3.22-benchmark.patch
 # installed when we build procmail so it can't detect it - AdamW
 # 2008/03 (thanks Snowbat)
 Patch4:		procmail-3.22-defsendmail.patch
-BuildRoot:	%{_tmppath}/%{name}-root
 Provides:	MailTransportAgent
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The procmail program is used by Mandriva Linux for all local mail
@@ -36,10 +33,10 @@ Procmail is also the basis for the SmartList mailing list processor.
 find . -type d -exec chmod 755 {} \;
 
 %build
-echo -n -e "\n"|  %make CFLAGS="%{optflags}"
+echo -n -e "\n"|  %make CFLAGS0="%{optflags}" LDFLAGS0="%{ldflags}"
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_mandir}/{man1,man5}
@@ -56,7 +53,7 @@ mv %{buildroot}/usr/man/man5/* %{buildroot}%{_mandir}/man5/
 rm -f examples/mailstat
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -67,5 +64,3 @@ rm -f examples/mailstat
 %{_bindir}/mailstat
 %{_mandir}/man1/*1*
 %{_mandir}/man5/*5*
-
-
