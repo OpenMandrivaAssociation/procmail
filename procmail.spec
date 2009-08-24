@@ -13,6 +13,8 @@ Patch3:		%{name}-3.22-benchmark.patch
 # installed when we build procmail so it can't detect it - AdamW
 # 2008/03 (thanks Snowbat)
 Patch4:		procmail-3.22-defsendmail.patch
+# patch from fedora
+Patch5:		procmail-3.22-getline.patch
 Provides:	MailTransportAgent
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -29,6 +31,7 @@ Procmail is also the basis for the SmartList mailing list processor.
 %patch2 -p1 -b .warly
 %patch3 -p1 -b .bench
 %patch4 -p1 -b .defsendmail
+%patch5 -p1 -b .readline
 
 find . -type d -exec chmod 755 {} \;
 
