@@ -1,0 +1,12 @@
+--- procmail-3.22.orig/config.h	2001-09-11 01:53:50.000000000 -0300
++++ procmail-3.22/config.h	2008-03-02 22:38:52.000000000 -0300
+@@ -98,7 +98,7 @@
+ 	mail present.  procmail automatically suppresses this when it isn't
+ 	needed or under heavy load. */
+ 
+-/*#define DEFsendmail	"/usr/sbin/sendmail"	/* uncomment and/or change if
++#define DEFsendmail	"/usr/sbin/sendmail"	/* uncomment and/or change if
+ 						   the autoconfigured default
+ 	SENDMAIL is not suitable.  This program should quack like a sendmail:
+ 	it should accept the -oi flag (to tell it to _not_ treat a line
+

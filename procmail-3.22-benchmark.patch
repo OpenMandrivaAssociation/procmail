@@ -1,0 +1,110 @@
+--- procmail-3.22/src/autoconf.org	2001-09-11 06:55:46.000000000 +0200
++++ procmail-3.22/src/autoconf	2004-01-16 20:19:23.798967888 +0100
+@@ -1192,51 +1192,59 @@
+ #ifdef BENCHSIZE
+ #undef strstr						  /* from includes.h */
+ #undef free						     /* from shell.h */
+-unsigned long dobench(strstr,iter,haystack)char*(*const strstr)();
+- unsigned long iter;const char*const haystack;
+-{ unsigned long to;
+-  to=(unsigned long)clock();
+-  do (*strstr)(haystack,FROM_EXPR);
+-  while(--iter);
+-  return (unsigned long)clock()-to;
++// Measures the average cpu-time (micro seconds) the given function takes.
++// (The 'strstr' variable is declared without 'const' to prevent the compiler from filtering the loop.)
++double dobench(strstr, haystack) char*(* strstr)(); const char*const haystack;
++{	unsigned long iter = 10, i;
++	const clock_t tMin = 4000000, clock_t_deviation = 5000; // micro seconds
++	clock_t t;
++	do
++	{	i = iter;
++		t = clock();
++		do
++			(*strstr)(haystack, FROM_EXPR);
++		while(--i);
++		t = clock() - t;
++//		fprintf(stderr, "t=%ld iter=%lu\n", t, iter);
++		if(t >= tMin)
++			break;
++		iter = 1.1 * (double)iter * (tMin  + clock_t_deviation) / (t + clock_t_deviation);
++	}
++	while(1);
++	fprintf(stderr, "average cpu time = %.3f us.\n", t / (double)iter);
++	return t / (double)iter;
+ }
+ #endif
+ int main(argc,argv)int argc;const char*argv[];
+ { if(argc==1)
+-   { char*haystack;
++  {
++	char*haystack;
+ #ifdef BENCHSIZE
+-     if(haystack=malloc(BENCHSIZE))
+-      { unsigned c1,c2,i;time_t t;
+-	unsigned long iter,titer,syscnt;
+-	for(i=c1=c2=0;i<BENCHSIZE-1;i++,c1++,c2++)
+-	 { haystack[i]='a';
+-	   if(c1==37)
+-	      c1=0,haystack[i]='\n';
+-	   if(c2==51)
+-	      c2=0,haystack[i]='\n';
+-	 }
+-	haystack[i]='\0';
+-	for(titer=~(unsigned long)0,t=0,iter=1;t<=1&&iter<<1&&iter<titer;)
+-	 { t=time((time_t*)0);
+-	   if((syscnt=dobench(strstr,iter<<=1,haystack))&&!~titer)
+-	      titer=iter*GRANULARITY;
+-	   t=time((time_t*)0)-t;
+-	 }
+-	iter=dobench(sstrstr,iter,haystack);free(haystack);
+-	if(!syscnt)
+-	   syscnt=1;
+-	if(!iter)
+-	   iter=1;
+-	printf("\
+-/* Your system's strstr() is %.2f times %sER than my C-routine */\n",
+-	 syscnt>=iter?(double)syscnt/iter:(double)iter/syscnt,
+-	 syscnt>=iter?"SLOW":"FAST");
+-	if(syscnt>iter+iter/16)		  /* if at least 1.0625 times slower */
+-	   printf("\
++	if(haystack=malloc(BENCHSIZE))
++	{	unsigned c1, c2, i;
++		time_t t;
++		double syscnt1, syscnt2;
++		for(i=c1=c2=0; i<BENCHSIZE-1; i++, c1++, c2++)
++		{	haystack[i]='a';
++			if(c1==37)
++				c1=0,haystack[i]='\n';
++			if(c2==51)
++				c2=0,haystack[i]='\n';
++		}
++		haystack[i]='\0';
++		syscnt1=dobench(strstr, haystack);
++		syscnt2=dobench(sstrstr, haystack);
++		free(haystack);
++		printf("\
++/* Your system's strstr() is %.3f times %sER than my C-routine */\n",
++		syscnt1>syscnt2?syscnt1/syscnt2:syscnt2/syscnt1,
++		syscnt1>syscnt2?"SLOW":"FAST");
++		if(syscnt1>syscnt2+syscnt2/16)		  /* if at least 1.0625 times slower */
++			printf("\
+ #define SLOWstrstr\t\t\t      /* using my substitute instead */\n");
+-      }
+-     else
+-	printf("/* Insufficient memory to perform the benchmark! */\n");
++	}
++	else
++		printf("/* Insufficient memory to perform the benchmark! */\n");
+ #endif /* SLOWstrstr */
+ #ifndef NO_COMSAT
+ #ifndef UDP_protocolno
+@@ -1410,7 +1418,7 @@
+ 
+ $RM _autotst.rrr
+ 
+-echo "Benchmarking your system's strstr() implementation"
++echo "Benchmarking your system's strstr() implementation, so be nice to your system to get right results."
+ 
+ _autotst >>$ACONF
+ 
