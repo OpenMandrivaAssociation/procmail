@@ -1,7 +1,7 @@
 Summary:	The procmail mail processing program
 Name:		procmail
 Version:	3.22
-Release:	21
+Release:	22
 License:	GPL/Artistic
 Group:		System/Servers
 URL:		http://www.procmail.org
