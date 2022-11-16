@@ -1,21 +1,19 @@
 Summary:	The procmail mail processing program
 Name:		procmail
-Version:	3.22
-Release:	31
+Version:	3.24
+Release:	1
 License:	GPLv2/Artistic
 Group:		System/Servers
 Url:		http://www.procmail.org
-Source0:	ftp://ftp.procmail.org/pub/procmail/%{name}-%{version}.tar.bz2
+Source0:	https://github.com/BuGlessRB/procmail/archive/refs/tags/v%{version}.tar.gz
 Patch1:		%{name}-3.22-lockf.patch
-Patch2:		%{name}-3.22-pixelpb.patch
 Patch3:		%{name}-3.22-benchmark.patch
 # Fix #27484:	explictly define sendmail's location as it's not
 # installed when we build procmail so it can't detect it - AdamW
 # 2008/03 (thanks Snowbat)
 Patch4:		procmail-3.22-defsendmail.patch
-# patch from fedora
-Patch5:		procmail-3.22-getline.patch
 Provides:	MailTransportAgent
+BuildRequires:	gcc
 
 %description
 The procmail program is used by Mandriva Linux for all local mail
@@ -24,13 +22,11 @@ for automatic filtering, presorting and other mail handling jobs.
 Procmail is also the basis for the SmartList mailing list processor.
 
 %prep
-%setup -q
-%autopatch -p1
-
+%autosetup -p1
 find . -type d -exec chmod 755 {} \;
 
 %build
-echo -n -e "\n"|  %make CFLAGS0="%{optflags}" LDFLAGS0="%{ldflags}"
+make CC=gcc CFLAGS0="%{optflags}" LDFLAGS0="%{ldflags}" LOCKINGTEST=. 
 
 %install
 install -d %{buildroot}%{_bindir}
@@ -38,6 +34,7 @@ install -d %{buildroot}%{_mandir}/{man1,man5}
 
 make \
     BASENAME=%{buildroot}%{_prefix} \
+    LOCKINGTEST=. \
     install.bin install.man
 
 #move the man pages
