@@ -7,7 +7,6 @@ Group:		System/Servers
 Url:		http://www.procmail.org
 Source0:	https://github.com/BuGlessRB/procmail/archive/refs/tags/v%{version}.tar.gz
 Patch1:		%{name}-3.22-lockf.patch
-Patch3:		%{name}-3.22-benchmark.patch
 # Fix #27484:	explictly define sendmail's location as it's not
 # installed when we build procmail so it can't detect it - AdamW
 # 2008/03 (thanks Snowbat)
