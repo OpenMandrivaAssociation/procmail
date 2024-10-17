@@ -4,7 +4,7 @@ Version:	3.24
 Release:	2
 License:	GPLv2/Artistic
 Group:		System/Servers
-Url:		http://www.procmail.org
+Url:		https://www.procmail.org
 Source0:	https://github.com/BuGlessRB/procmail/archive/refs/tags/v%{version}.tar.gz
 Patch1:		%{name}-3.22-lockf.patch
 # Fix #27484:	explictly define sendmail's location as it's not
