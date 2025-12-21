@@ -12,6 +12,7 @@ Patch1:		%{name}-3.22-lockf.patch
 # 2008/03 (thanks Snowbat)
 Patch4:		procmail-3.22-defsendmail.patch
 Provides:	MailTransportAgent
+BuildRequires:	make
 BuildRequires:	gcc
 
 %description
